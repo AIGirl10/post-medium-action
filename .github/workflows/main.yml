@@ -9,8 +9,8 @@ jobs:
       - name: Read the post
         id: post
         run: echo "::set-output name=data::$(cat ./posts/post.md)"
-      - uses: AIGirl10/post-medium-action@v1.6.3
+      - uses: AIGirl10/post-medium-action@v1.6.4
         with:
           access_token: ${{ secrets.MEDIUM_ACCESS_TOKEN }}
-          markdown: ${{ steps.post.output.data }}
+          markdown: ${{ steps.post.outputs.data }}
           base_url: https://medium.com/@Inconspicuous10
