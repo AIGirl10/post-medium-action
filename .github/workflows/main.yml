@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v2
       - if: steps.posts.outputs.post0
         name: Publish as a draft to medium
-        uses: AIGirl10/post-medium-action@v1.6.5
+        uses: AIGirl10/post-medium-action@main
         with:
           access_token: ${{ secrets.MEDIUM_ACCESS_TOKEN }}
           markdown_file: ${{ steps.posts.outputs.post0 }}
