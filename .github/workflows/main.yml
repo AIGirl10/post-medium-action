@@ -12,5 +12,5 @@ jobs:
       - uses: AIGirl10/post-medium-action@v1.6.2
         with:
           access_token: ${{ secrets.MEDIUM_ACCESS_TOKEN }}
-          markdown: ${{ steps.post.outputs.data }}
+          markdown: ${{ steps.post.output.data }}
           base_url: https://medium.com/@Inconspicuous10
