@@ -31,3 +31,4 @@ jobs:
           markdown_file: ${{ steps.posts.outputs.post0 }}
           base_url: https://medium.com/@Inconspicuous10
           post_url: https://medium.com/@Inconspicuous10/test
+          post_status: publish
