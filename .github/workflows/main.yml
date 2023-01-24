@@ -27,7 +27,7 @@ jobs:
         MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
 
     - name: Publish Blog
-      run: npx medium-to-blog post --path test.md --token $HOME/.medium-token
+      run: npx medium-publish post --path test.md --token $HOME/.medium-token
 
     - name: Commit Changes
       run: git add . && git commit -m "Post blog to Medium"
