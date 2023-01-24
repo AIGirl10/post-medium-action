@@ -1,33 +1,35 @@
-name: First Post
-on: [push]
+name: Medium Blog Post
+
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  post:
     runs-on: ubuntu-latest
+
     steps:
-      - id: files
-        uses: jitterbit/get-changed-files@v1
-      - id: posts
-        name: Detecting posts from the changes
-        run: |
-          i=0
-          for changed_file in ${{ steps.files.outputs.added_modified }}; do
-            echo "Do something with ${changed_file}."
-            if [[ "${changed_file}" == *.md ]];
-            then
-              echo "File ${changed_file} matched post."
-              echo "::set-output name=post${i}::${changed_file}"
-              ((i=i+1))
-            fi
-          done
-      - id: checkout
-        name: Checkout the repository
-        uses: actions/checkout@v2
-      - if: steps.posts.outputs.post0
-        name: Publish as a draft to medium
-        uses: InfraWay/post-medium-action@v1.6.0
-        with:
-          access_token: ${{ secrets.MEDIUM_ACCESS_TOKEN }}
-          markdown_file: ${{ steps.posts.outputs.post0 }}
-          base_url: https://medium.com/@Inconspicuous10
-          post_status: public
+    - name: Checkout Repo
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Install Dependencies
+      run: npm ci
+
+    - name: Authenticate with Medium
+      run: echo ${{ secrets.MEDIUM_TOKEN }} > $HOME/.medium-token
+      env:
+        MEDIUM_TOKEN: ${{ secrets.MEDIUM_TOKEN }}
+
+    - name: Publish Blog
+      run: npx medium-to-blog post --path test.md --token $HOME/.medium-token
+
+    - name: Commit Changes
+      run: git add . && git commit -m "Post blog to Medium"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
